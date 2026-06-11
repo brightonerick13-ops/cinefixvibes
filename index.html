@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinefix Vibes Pro | Universal Premium Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- SUPREME CYBERPUNK PALETTE DESIGN --- */
+        :root {
+            --primary: #ff3c00;      /* Neon Crimson Orange */
+            --accent: #00d4ff;       /* Cyberpunk Cyan */
+            --bg-dark: #050505;      /* Absolute Deep Void Black */
+            --card-bg: #121212;      /* Premium Dark Charcoal */
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --pending: #ffc107;      /* Vivid Warning Yellow */
+            --text-main: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* HARD LOCKED NAVIGATION FOR INITIAL VIEWPORT STATE */
+        body.locked {
+            overflow-y: hidden;
+            height: 100vh;
+        }
+
+        /* --- PAGE 1: PRE-LAUNCH HERO LANDING SCREEN --- */
+        .hero-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow: hidden;
+            z-index: 1000;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
+        }
+
+        .hero-cover.hidden {
+            transform: translateY(-100vh);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #hero-bg-wall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+            opacity: 0.22;
+            filter: blur(1.5px);
+            animation: slowScrollGrid 90s linear infinite;
+        }
+
+        @keyframes slowScrollGrid {
+            from { transform: translateY(0); }
+            to { transform: translateY(-50%); }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0) 15%, rgba(5,5,5,1) 85%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(45px, 11vw, 110px);
+            font-weight: 900;
+            letter-spacing: 16px;
+            margin: 0;
+            text-shadow: 0 0 35px var(--primary);
+            color: #fff;
+        }
+
+        /* --- DYNAMIC TRANSITION COMPONENT BUTTONS --- */
+        .btn-action {
+            padding: 14px 35px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-dl {
+            background: linear-gradient(45deg, var(--primary), #e62e00);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(255, 60, 0, 0.4);
+        }
+
+        .btn-dl:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 35px rgba(255, 60, 0, 0.7);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        /* --- PAGE 2: MAIN APPLICATION HUB INTERFACE --- */
+        #main-app-interface {
+            min-height: 100vh;
+            padding: 50px 5%;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease-in;
+        }
+
+        #main-app-interface.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Floating Home Exit Anchor */
+        .btn-floating-home {
+            position: fixed;
+            top: 25px;
+            left: 5%;
+            background: var(--glass);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            padding: 12px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: 0.3s;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-floating-home:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Global Header Hub Architecture */
+        .hub-header {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 50px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            max-width: 650px;
+            margin: 30px auto 0 auto;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            top: 50%;
+            left: 25px;
+            transform: translateY(-50%);
+            color: #555;
+            font-size: 18px;
+        }
+
+        .input-search {
+            width: 100%;
+            padding: 18px 30px 18px 60px;
+            border-radius: 50px;
+            border: 1px solid #1a1a1a;
+            background: #090909;
+            color: white;
+            outline: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .input-search:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+        }
+
+        /* Categorization & Content Class Filtering Switcher Tabs */
+        .category-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .switch-btn {
+            background: #111;
+            border: 1px solid #222;
+            color: #888;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .switch-btn.active, .switch-btn:hover {
+            color: white;
+            background: var(--card-bg);
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 60, 0, 0.2);
+        }
+
+        /* Horizontal Genre Filter Badges Array */
+        .genre-bar-scroller {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 5px 0 20px 0;
+            margin-bottom: 35px;
+            scrollbar-width: none;
+        }
+
+        .genre-bar-scroller::-webkit-scrollbar { display: none; }
+
+        .genre-badge {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 9px 22px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .genre-badge.active, .genre-badge:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        /* Premium Content Card Grid Systems */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), border-color 0.4s;
+            border: 1px solid #161616;
+        }
+
+        .card:hover {
+            transform: translateY(-12px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .meta-badge {
+            position: absolute;
+            top: 12px; left: 12px; z-index: 5;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .rating-badge {
+            position: absolute;
+            top: 12px; right: 12px; z-index: 5;
+            background: var(--primary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(255, 60, 0, 0.4);
+        }
+
+        .card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .card-details {
+            padding: 18px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* --- INTERACTIVE MODAL COMPONENT WINDOWS --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.94);
+            z-index: 100000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+        }
+
+        .modal-content {
+            background: #0d0d0d;
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--primary);
+            width: 92%;
+            max-width: 850px;
+            position: relative;
+            max-height: 92vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px rgba(255, 60, 0, 0.15);
+        }
+
+        .close-wrapper {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+        .close-wrapper:hover { color: var(--primary); }
+
+        /* Dynamic In-App Video Engine Frame */
+        .media-container-frame {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #222;
+            margin-top: 15px;
+            margin-bottom: 25px;
+        }
+
+        .media-container-frame iframe, .media-container-frame video {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .grid-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .btn-grid-play { background: var(--accent); color: #000; }
+        .btn-grid-get { background: var(--primary); color: #fff; }
+
+        /* Multi-Season & Multi-Episode TV Component Layout */
+        .series-navigation-box {
+            margin-top: 25px;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+
+        .custom-select-season {
+            background: #141414;
+            color: #fff;
+            padding: 14px;
+            border: 1px solid #252525;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+        }
+        .custom-select-season:focus { border-color: var(--accent); }
+
+        .episodes-listing-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 240px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .episode-row-card {
+            background: #121212;
+            border: 1px solid #1a1a1a;
+            padding: 15px 20px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .episode-row-card:hover {
+            background: rgba(0, 212, 255, 0.05);
+            border-color: var(--accent);
+        }
+
+        /* --- REDIRECTION INTERSTITIAL PROGRESS LAYER --- */
+        .interstitial-loader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 5, 0.98);
+            z-index: 500000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .pipeline-card {
+            width: 85%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        .pipeline-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .pipeline-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.08s linear;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .pipeline-metrics {
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+        }
+
+        /* Utility Specific Styles */
+        #loader { font-family: 'Orbitron'; text-align: center; padding: 50px; color: var(--primary); letter-spacing: 2px; font-weight: 700; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateX(-15px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="locked">
+
+    <div class="hero-cover" id="portal-hero-cover">
+        <div id="hero-bg-wall"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="logo-text">CINEFIX</h1>
+            <p style="letter-spacing: 8px; color: var(--accent); font-weight: 700; font-family: 'Orbitron'; font-size: 14px; margin-top: 5px;">VIBES PRO</p>
+            <div style="margin-top: 40px; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn-action btn-dl" style="padding: 16px 45px;" onclick="transitionToAppHub()"><i class="fas fa-bolt"></i> Watch Now</button>
+                <button class="btn-action btn-secondary" style="padding: 16px 45px;" onclick="openRequestWindow()"><i class="fas fa-fire"></i> Request Movie</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-app-interface">
+        <button class="btn-floating-home" onclick="returnToLandingHero()">
+            <i class="fas fa-arrow-left"></i> Home Portal
+        </button>
+
+        <div class="hub-header">
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="appSearchEngine" class="input-search" placeholder="Search movies, television series...">
+            </div>
+
+            <div class="category-switcher">
+                <button class="switch-btn active" id="tab-movies" onclick="toggleMediaTypeSystem('movie')">Feature Movies</button>
+                <button class="switch-btn" id="tab-series" onclick="toggleMediaTypeSystem('tv')">TV Series Collection</button>
+            </div>
+
+            <div class="genre-bar-scroller" id="genre-badges-host"></div>
+        </div>
+
+        <div class="grid" id="appMasterGrid"></div>
+        <div id="loader">CONNECTING TO CINEMATIC CORE...</div>
+    </div>
+
+    <div id="globalMediaModal" class="modal">
+        <div class="modal-content" style="max-width: 780px;">
+            <span class="close-wrapper" onclick="killModalSession()">&times;</span>
+            <h2 id="mediaModalTitle" style="font-family: 'Orbitron', sans-serif; color: white; margin-bottom: 5px; font-size: 22px;">Media Title</h2>
+            <p id="mediaModalYear" style="color: var(--accent); font-size: 13px; font-weight: 600; margin-bottom: 15px;">Year</p>
+            
+            <div class="media-container-frame" id="dynamicMediaContainer">
+                <video id="internalVideoEngine" controls poster="">
+                    <source src="" type="video/mp4">
+                    Streaming framework natively unsupported by browser architecture.
+                </video>
+            </div>
+
+            <p id="mediaModalOverview" style="font-size: 14px; color: #aaa; line-height: 1.6; margin-bottom: 25px;">Description data.</p>
+
+            <div class="grid-actions" id="moviePlaybackControls">
+                <button class="btn-action btn-grid-play" style="flex:1" onclick="executeInAppStream()"><i class="fas fa-play"></i> Stream HD</button>
+                <button class="btn-action btn-grid-get" style="flex:1" onclick="executeDirectMonetizedDownload()"><i class="fas fa-download"></i> Download</button>
+            </div>
+
+            <div class="series-navigation-box" id="seriesExtendedModule" style="display: none;">
+                <h3 style="font-family: 'Orbitron'; font-size: 14px; color: var(--accent); margin-bottom: 15px; letter-spacing: 1px;">Browse Seasons</h3>
+                <select class="custom-select-season" id="seasonFilterDropdown" onchange="fetchTargetSeasonEpisodePayload()"></select>
+                <div class="episodes-listing-container" id="episodesDynamicOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="userRequestModal" class="modal">
+        <div class="modal-content" style="max-width: 440px; border-color: var(--accent); text-align: center;">
+            <h2 style="color: var(--accent); font-family: 'Orbitron'; font-size: 20px; letter-spacing: 1px;">Request Interface</h2>
+            <p style="font-size: 12px; color: #666; margin-top: 5px;">Your global entries track natively down below.</p>
+            <input type="text" id="userRequestInput" placeholder="Enter full movie or series title..." style="width:100%; padding:15px; margin:22px 0; background:#000; border:1px solid #222; color:white; border-radius:12px; box-sizing: border-box; outline: none; font-size: 14px;">
+            <button class="btn-action btn-dl" style="width:100%; justify-content: center;" onclick="commitUserRequest()"><i class="fas fa-plus"></i> Submit Request</button>
+            <button class="btn-action" style="width:100%; margin-top:12px; background:#161616; color:white; justify-content: center;" onclick="killModalSession()">Close Portal</button>
+        </div>
+    </div>
+
+    <div class="interstitial-loader" id="routingProcessOverlay">
+        <div class="pipeline-card">
+            <h3 id="pipelineStatusTitle" style="font-family: 'Orbitron'; font-weight: 700; font-size: 15px; color: #fff; letter-spacing: 1px;">OPTIMIZING SECURE INTERFACE PIPELINE...</h3>
+            <div class="pipeline-track">
+                <div class="pipeline-fill" id="pipelineActiveFill"></div>
+            </div>
+            <div class="pipeline-metrics" id="pipelinePercentageCounter">0%</div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION AREA (TOKEN IMENGIZWA HAPA)
+        // ==========================================
+        const SHRINKME_API_TOKEN = "203ff4e42f8e831edfa5b72821e95acb099ddc5f"; 
+        const TMDB_CORE_API_KEY = "dad82fe705424bd1246e75c5c056311e";
+        const ASSET_RESOLUTION_PATH = "https://image.tmdb.org/t/p/w500";
+        const GLOBAL_LANG = "en-US"; 
+        
+        let runtimeActivePage = 1;
+        let globalMediaActiveType = 'movie'; 
+        let activeFilterGenreId = '';
+        let targetFocusedItemId = null;
+        let infiniteScrollThrottler = false;
+
+        // HIGH-CONVERTING CUSTOM MONETIZED SHORT-LINKS DICTIONARY
+        const premiumMonetizedRoutes = {
+            "movie_550": "https://shrinkme.io/FightClubPremiumHD", 
+            "tv_94605": "https://shrinkme.io/SquidGameS01FullHD"
+        };
+
+        // HELPER: DYNAMIC ROUTE SHORTENER ENGINE
+        function generateMonetizedLink(destinationUrl, fallbackUrl) {
+            if(!SHRINKME_API_TOKEN || SHRINKME_API_TOKEN === "PASTE_TOKEN_YAKO_HAPA") {
+                console.warn("Shrinkme API token is missing! Using fallback URL.");
+                window.open(fallbackUrl, '_blank');
+                return;
+            }
+            
+            const apiUrl = `https://shrinkme.io/api?api=${SHRINKME_API_TOKEN}&url=${encodeURIComponent(destinationUrl)}`;
+            
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success" && data.shortenedUrl) {
+                        window.open(data.shortenedUrl, '_blank');
+                    } else {
+                        window.open(fallbackUrl, '_blank');
+                    }
+                })
+                .catch(err => {
+                    console.error("Shortener API Error, routing to fallback:", err);
+                    window.open(fallbackUrl, '_blank');
+                });
+        }
+
+        // 1. DYNAMIC GRID HERO LOADER 
+        async function fetchHeroWallData() {
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}&with_original_language=en&page=1`);
+                const data = await res.json();
+                const wall = document.getElementById('hero-bg-wall');
+                wall.innerHTML = '';
+                data.results.forEach(m => {
+                    if(!m.poster_path) return;
+                    const block = document.createElement('div');
+                    block.style.backgroundImage = `url(https://image.tmdb.org/t/p/w300${m.poster_path})`;
+                    block.style.height = "260px"; 
+                    block.style.backgroundSize = "cover";
+                    block.style.backgroundPosition = "center";
+                    block.style.borderRadius = "8px";
+                    wall.appendChild(block);
+                });
+            } catch (err) { console.error("Hero background engine error initialization failure", err); }
+        }
+
+        // 2. NAV SYSTEM VIEWPORTS ROUTING
+        function transitionToAppHub() {
+            document.body.classList.remove('locked');
+            document.getElementById('portal-hero-cover').classList.add('hidden');
+            document.getElementById('main-app-interface').classList.add('active');
+            initCoreApplicationSystems();
+        }
+
+        function returnToLandingHero() {
+            document.body.classList.add('locked');
+            document.getElementById('portal-hero-cover').classList.remove('hidden');
+            document.getElementById('main-app-interface').classList.remove('active');
+            resetMediaContainerState();
+        }
+
+        // 3. MASTER APP INITS
+        function initCoreApplicationSystems() {
+            generateGenreBadgesSystem();
+            renderGridPayloadData();
+        }
+
+        function toggleMediaTypeSystem(type) {
+            globalMediaActiveType = type;
+            activeFilterGenreId = '';
+            runtimeActivePage = 1;
+
+            document.getElementById('tab-movies').classList.toggle('active', type === 'movie');
+            document.getElementById('tab-series').classList.toggle('active', type === 'tv');
+
+            initCoreApplicationSystems();
+        }
+
+        // 4. DYNAMIC BADGE FILTERS GENERATOR
+        function generateGenreBadgesSystem() {
+            const host = document.getElementById('genre-badges-host');
+            host.innerHTML = '';
+
+            const genericMovieBadges = [
+                {id: '', name: 'All Blockbusters'}, {id: '878', name: 'Sci-Fi Futuristic'}, 
+                {id: '12', name: 'Adventure'}, {id: '28', name: 'Action Heavy'}, 
+                {id: '27', name: 'Horror Thrills'}, {id: '10749', name: 'Romance'}
+            ];
+
+            const genericTvBadges = [
+                {id: '', name: 'All Shows'}, {id: '10765', name: 'Sci-Fi & Magic'}, 
+                {id: '10759', name: 'Action & War'}, {id: '18', name: 'High Drama'}
+            ];
+
+            const collection = (globalMediaActiveType === 'movie') ? genericMovieBadges : genericTvBadges;
+
+            collection.forEach(badge => {
+                const element = document.createElement('div');
+                element.className = `genre-badge ${activeFilterGenreId === badge.id ? 'active' : ''}`;
+                element.innerText = badge.name;
+                element.onclick = () => {
+                    document.querySelectorAll('.genre-badge').forEach(b => b.classList.remove('active'));
+                    element.classList.add('active');
+                    activeFilterGenreId = badge.id;
+                    runtimeActivePage = 1;
+                    renderGridPayloadData();
+                };
+                host.appendChild(element);
+            });
+        }
+
+        // 5. MASTER QUERY RENDERING CONTROLLER (HARD FILTERED FOR ENGLISH MOVIES ONLY)
+        async function renderGridPayloadData(searchString = "") {
+            document.getElementById('loader').style.display = 'block';
+            
+            let queryUrl = `https://api.themoviedb.org/3/discover/${globalMediaActiveType}?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}&with_original_language=en&sort_by=popularity.desc&page=${runtimeActivePage}`;
+            if(activeFilterGenreId) queryUrl += `&with_genres=${activeFilterGenreId}`;
+            
+            if(searchString) {
+                queryUrl = `https://api.themoviedb.org/3/search/${globalMediaActiveType}?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}&query=${encodeURIComponent(searchString)}&page=${runtimeActivePage}`;
+            }
+
+            try {
+                const res = await fetch(queryUrl);
+                const data = await res.json();
+                const grid = document.getElementById('appMasterGrid');
+                
+                if(runtimeActivePage === 1) grid.innerHTML = '';
+
+                if(data.results && data.results.length > 0) {
+                    data.results.forEach(item => {
+                        if(searchString && item.original_language !== 'en') return;
+                        if(!item.poster_path) return;
+                        
+                        const cardTitle = item.title || item.name;
+                        const launchYear = (item.release_date || item.first_air_date || "N/A").split('-')[0];
+                        
+                        const structure = document.createElement('div');
+                        structure.className = 'card';
+                        structure.innerHTML = `
+                            <div class="meta-badge"><i class="far fa-calendar"></i> ${launchYear}</div>
+                            <div class="rating-badge"><i class="fas fa-star"></i> ${item.vote_average.toFixed(1)}</div>
+                            <img src="${ASSET_RESOLUTION_PATH + item.poster_path}" alt="${cardTitle}" onclick="bootMediaDisplayOverlay('${item.id}')">
+                            <div class="card-details">
+                                <h3 class="card-title">${cardTitle}</h3>
+                                <div style="display:flex; gap:10px;">
+                                    <button class="btn-action btn-grid-play" style="flex:1; padding:10px; border-radius:8px;" onclick="bootMediaDisplayOverlay('${item.id}')"><i class="fas fa-play"></i> WATCH</button>
+                                    <button class="btn-action btn-grid-get" style="flex:1; padding:10px; border-radius:8px;" onclick="executeExternalDownloadFlow('${item.id}', '${cardTitle.replace(/'/g, "\\'")}')">GET</button>
+                                </div>
+                            </div>
+                        `;
+                        grid.appendChild(structure);
+                    });
+                } else if(runtimeActivePage === 1) {
+                    grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#555; font-weight:600;">No runtime cinematic matches discovered based on current parameters.</p>`;
+                }
+            } catch (err) { console.error("Grid content acquisition pipeline failure:", err); }
+            document.getElementById('loader').style.display = 'none';
+            infiniteScrollThrottler = false;
+        }
+
+        // 6. DETAILED SPECIFIC MEDIA RESOURCE INTERACTION 
+        async function bootMediaDisplayOverlay(id) {
+            targetFocusedItemId = id;
+            resetMediaContainerState();
+            document.getElementById('seriesExtendedModule').style.display = 'none';
+
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/${globalMediaActiveType}/${id}?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}`);
+                const data = await res.json();
+                
+                document.getElementById('mediaModalTitle').innerText = data.title || data.name;
+                document.getElementById('mediaModalYear').innerText = (data.release_date || data.first_air_date || "N/A").split('-')[0] + " | Full HD Streaming Quality Enabled";
+                document.getElementById('mediaModalOverview').innerText = data.overview || "No comprehensive file metadata specifications found for this entry.";
+                
+                const playerElement = document.getElementById('internalVideoEngine');
+                if(playerElement) {
+                    playerElement.poster = data.backdrop_path ? (ASSET_RESOLUTION_PATH + data.backdrop_path) : '';
+                }
+
+                if(globalMediaActiveType === 'tv') {
+                    document.getElementById('moviePlaybackControls').style.display = 'none';
+                    buildSerialStructureElements(data);
+                } else {
+                    document.getElementById('moviePlaybackControls').style.display = 'flex';
+                }
+
+                document.getElementById('globalMediaModal').style.display = 'flex';
+            } catch (err) { console.error("Detailed overview allocation runtime mapping anomaly:", err); }
+        }
+
+        function killModalSession() {
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+            resetMediaContainerState();
+        }
+
+        function resetMediaContainerState() {
+            const wrap = document.getElementById('dynamicMediaContainer');
+            wrap.innerHTML = `
+                <video id="internalVideoEngine" controls poster="">
+                    <source src="" type="video/mp4">
+                    Streaming framework natively unsupported by browser architecture.
+                </video>
+            `;
+        }
+
+        // 7. COMPLEX SERIAL SEASONS AND EPISODES SYSTEM HANDLERS
+        function buildSerialStructureElements(seriesData) {
+            const dropdown = document.getElementById('seasonFilterDropdown');
+            dropdown.innerHTML = '';
+
+            if(seriesData.seasons && seriesData.seasons.length > 0) {
+                seriesData.seasons.forEach(s => {
+                    if(s.season_number > 0) {
+                        const opt = document.createElement('option');
+                        opt.value = s.season_number;
+                        opt.innerText = s.name || `Season ${s.season_number}`;
+                        dropdown.appendChild(opt);
+                    }
+                });
+                document.getElementById('seriesExtendedModule').style.display = 'block';
+                fetchTargetSeasonEpisodePayload();
+            }
+        }
+
+        async function fetchTargetSeasonEpisodePayload() {
+            const activeSeason = document.getElementById('seasonFilterDropdown').value;
+            const container = document.getElementById('episodesDynamicOutput');
+            container.innerHTML = '<p style="color: var(--accent); font-size:12px; font-weight:700;">Fetching secure server endpoints...</p>';
+
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/tv/${targetFocusedItemId}/season/${activeSeason}?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}`);
+                const data = await res.json();
+                container.innerHTML = '';
+
+                if(data.episodes && data.episodes.length > 0) {
+                    data.episodes.forEach(ep => {
+                        const row = document.createElement('div');
+                        row.className = 'episode-row-card';
+                        row.onclick = () => executeEpisodePlaybackFlow(activeSeason, ep.episode_number);
+                        row.innerHTML = `
+                            <span style="font-size:13px; font-weight:600; max-width:85%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">EP ${ep.episode_number}: ${ep.name || 'Untitled Episode'}</span>
+                            <i class="fas fa-play-circle" style="color: var(--accent); font-size:16px;"></i>
+                        `;
+                        container.appendChild(row);
+                    });
+                }
+            } catch (err) { container.innerHTML = '<p style="color:var(--primary); font-size:12px;">Failed loading server arrays.</p>'; }
+        }
+
+        // 8. DIRECT HIGH-SPEED STREAM EXECUTION MODES
+        function executeInAppStream() {
+            const key = `${globalMediaActiveType}_${targetFocusedItemId}`;
+            
+            triggerProgressSimulationOverlay("CALIBRATING ULTRA-FAST VIDEO DECODER CHANNELS...", () => {
+                if(premiumMonetizedRoutes[key]) {
+                    window.open(premiumMonetizedRoutes[key], '_blank');
+                } else {
+                    const activeRoute = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
+                    document.getElementById('dynamicMediaContainer').innerHTML = `<iframe src="${activeRoute}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
+                }
+            });
+        }
+
+        function executeEpisodePlaybackFlow(sNum, epNum) {
+            const uniqueEpKey = `tv_${targetFocusedItemId}_s${sNum}_e${epNum}`;
+            
+            triggerProgressSimulationOverlay(`LAUNCHING SEASON ${sNum} EPISODE ${epNum} CORE STORAGE STATUS...`, () => {
+                let executionEndpoint = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}&season=${sNum}&episode=${epNum}`;
+                if(premiumMonetizedRoutes[uniqueEpKey]) {
+                    window.open(premiumMonetizedRoutes[uniqueEpKey], '_blank');
+                } else {
+                    document.getElementById('dynamicMediaContainer').innerHTML = `<iframe src="${executionEndpoint}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
+                }
+            });
+        }
+
+        // 9. HIGHLY OPTIMIZED REVENUE GENERATING DYNAMIC ENGINE ACTION
+        function executeDirectMonetizedDownload() {
+            const key = `${globalMediaActiveType}_${targetFocusedItemId}`;
+            const targetStreamUrl = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
+            const staticFallback = `https://shrinkme.io/CinefixVibesSecureSystem?query_id=${targetFocusedItemId}`;
+            
+            triggerProgressSimulationOverlay("ESTABLISHING HIGH-SPEED DISK DOWNLOAD CONNECTION PIPELINE...", () => {
+                if(premiumMonetizedRoutes[key]) {
+                    window.open(premiumMonetizedRoutes[key], '_blank');
+                } else {
+                    generateMonetizedLink(targetStreamUrl, staticFallback);
+                }
+            });
+        }
+
+        function executeExternalDownloadFlow(id, title) {
+            const key = `${globalMediaActiveType}_${id}`;
+            const targetStreamUrl = `https://embed.smashystream.com/playere.php?tmdb=${id}`;
+            const staticFallback = `https://shrinkme.io/CinefixVibesSecureSystem?query_id=${id}`;
+            
+            triggerProgressSimulationOverlay(`FETCHING FAST MIRROR DISK PORTAL FOR: ${title.toUpperCase()}...`, () => {
+                if(premiumMonetizedRoutes[key]) {
+                    window.open(premiumMonetizedRoutes[key], '_blank');
+                } else {
+                    generateMonetizedLink(targetStreamUrl, staticFallback);
+                }
+            });
+        }
+
+        // 10. REALISTIC METRIC SYSTEM PROGRESS TIMEOUT COUNTER OVERLAY
+        function triggerProgressSimulationOverlay(messageText, downstreamExecutionCallback) {
+            const box = document.getElementById('routingProcessOverlay');
+            const filler = document.getElementById('pipelineActiveFill');
+            const dynamicText = document.getElementById('pipelinePercentageCounter');
+            
+            document.getElementById('pipelineStatusTitle').innerText = messageText;
+            box.style.display = 'flex';
+            
+            let value = 0;
+            filler.style.width = '0%';
+            dynamicText.innerText = '0%';
+
+            const timingThread = setInterval(() => {
+                value += Math.floor(Math.random() * 14) + 6;
+                if(value >= 100) {
+                    value = 100;
+                    filler.style.width = '100%';
+                    dynamicText.innerText = '100%';
+                    clearInterval(timingThread);
+                    
+                    setTimeout(() => {
+                        box.style.display = 'none';
+                        downstreamExecutionCallback();
+                    }, 350);
+                } else {
+                    filler.style.width = `${value}%`;
+                    dynamicText.innerText = `${value}%`;
+                }
+            }, 65);
+        }
+
+        // 11. WORLD REQUEST SYSTEM LOGIC TERMINAL
+        function openRequestWindow() { document.getElementById('userRequestModal').style.display = 'flex'; }
+
+        function commitUserRequest() {
+            const inputField = document.getElementById('userRequestInput');
+            const sanitizedText = inputField.value.trim();
+            if(!sanitizedText) return;
+
+            let cacheData = JSON.parse(localStorage.getItem('cineRequests') || "[]");
+            cacheData.unshift(sanitizedText);
+            localStorage.setItem('cineRequests', JSON.stringify(cacheData.slice(0, 5)));
+            
+            inputField.value = "";
+            killModalSession();
+            alert("Your request has been filed successfully!");
+        }
+
+        // 12. RUNTIME EVENT BINDINGS (DEBOUNCED SEARCH & INFINITE SCROLL)
+        let latencySearchDebounceTimer;
+        document.getElementById('appSearchEngine').addEventListener('input', (e) => {
+            clearTimeout(latencySearchDebounceTimer);
+            latencySearchDebounceTimer = setTimeout(() => {
+                runtimeActivePage = 1;
+                renderGridPayloadData(e.target.value);
+            }, 450);
+        });
+
+        window.addEventListener('scroll', () => {
+            if(document.getElementById('main-app-interface').classList.contains('active')) {
+                if (!infiniteScrollThrottler && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 900) {
+                    infiniteScrollThrottler = true;
+                    runtimeActivePage++;
+                    const searchVal = document.getElementById('appSearchEngine').value;
+                    renderGridPayloadData(searchVal);
+                }
+            }
+        });
+
+        // KICKSTART CORE ENGINE
+        fetchHeroWallData();
+    </script>
+</body>
+</html>

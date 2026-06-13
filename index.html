@@ -872,16 +872,18 @@
             } catch (err) { container.innerHTML = '<p style="color:var(--primary); font-size:12px;">Failed loading server arrays.</p>'; }
         }
 
-        // 8. DIRECT HIGH-SPEED STREAM EXECUTION MODES
+                // EXECUTE MONETIZED STREAMING CHANNELS (RECONFIGURED BY BRIGHTROBSON)
         function executeInAppStream() {
             const key = `${globalMediaActiveType}_${targetFocusedItemId}`;
+            const targetStreamUrl = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
+            const staticFallback = `https://shrinkme.io/CinefixVibesSecureSystem?query_id=${targetFocusedItemId}`;
             
             triggerProgressSimulationOverlay("CALIBRATING ULTRA-FAST VIDEO DECODER CHANNELS...", () => {
                 if(premiumMonetizedRoutes[key]) {
                     window.open(premiumMonetizedRoutes[key], '_blank');
                 } else {
-                    const activeRoute = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
-                    document.getElementById('dynamicMediaContainer').innerHTML = `<iframe src="${activeRoute}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
+                    // This now forces the stream button to pass through Shrinkme just like the download button
+                    generateMonetizedLink(targetStreamUrl, staticFallback);
                 }
             });
         }

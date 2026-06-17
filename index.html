@@ -602,7 +602,8 @@
     <script>
         // ==========================================
         // CONFIGURATION AREA (TOKEN IMENGIZWA HAPA)
-        // ========================================== 
+        // ==========================================
+        const SHRINKME_API_TOKEN = "203ff4e42f8e831edfa5b72821e95acb099ddc5f"; 
         const TMDB_CORE_API_KEY = "dad82fe705424bd1246e75c5c056311e";
         const ASSET_RESOLUTION_PATH = "https://image.tmdb.org/t/p/w500";
         const GLOBAL_LANG = "en-US"; 
@@ -619,8 +620,32 @@
             "tv_94605": "https://shrinkme.io/SquidGameS01FullHD"
         };
 
-                
+        // HELPER: DYNAMIC ROUTE SHORTENER ENGINE
+        function generateMonetizedLink(destinationUrl, fallbackUrl) {
+            if(!SHRINKME_API_TOKEN || SHRINKME_API_TOKEN === "PASTE_TOKEN_YAKO_HAPA") {
+                console.warn("Shrinkme API token is missing! Using fallback URL.");
+                window.open(fallbackUrl, '_blank');
+                return;
             }
+            
+            const apiUrl = `https://shrinkme.io/api?api=${SHRINKME_API_TOKEN}&url=${encodeURIComponent(destinationUrl)}`;
+            
+            fetch(apiUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === "success" && data.shortenedUrl) {
+                        window.open(data.shortenedUrl, '_blank');
+                    } else {
+                        window.open(fallbackUrl, '_blank');
+                    }
+                })
+                .catch(err => {
+                    console.error("Shortener API Error, routing to fallback:", err);
+                    window.open(fallbackUrl, '_blank');
+                });
+        }
+
+        // 1. DYNAMIC GRID HERO LOADER 
         async function fetchHeroWallData() {
             try {
                 const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}&with_original_language=en&page=1`);
@@ -844,18 +869,16 @@
             } catch (err) { container.innerHTML = '<p style="color:var(--primary); font-size:12px;">Failed loading server arrays.</p>'; }
         }
 
-                // EXECUTE MONETIZED STREAMING CHANNELS (RECONFIGURED BY BRIGHTROBSON)
+        // 8. DIRECT HIGH-SPEED STREAM EXECUTION MODES
         function executeInAppStream() {
             const key = `${globalMediaActiveType}_${targetFocusedItemId}`;
-            const targetStreamUrl = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
-            const staticFallback = `https://shrinkme.io/CinefixVibesSecureSystem?query_id=${targetFocusedItemId}`;
             
             triggerProgressSimulationOverlay("CALIBRATING ULTRA-FAST VIDEO DECODER CHANNELS...", () => {
                 if(premiumMonetizedRoutes[key]) {
                     window.open(premiumMonetizedRoutes[key], '_blank');
                 } else {
-                    // This now forces the stream button to pass through Shrinkme just like the download button
-                    generateMonetizedLink(targetStreamUrl, staticFallback);
+                    const activeRoute = `https://embed.smashystream.com/playere.php?tmdb=${targetFocusedItemId}`;
+                    document.getElementById('dynamicMediaContainer').innerHTML = `<iframe src="${activeRoute}" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"></iframe>`;
                 }
             });
         }

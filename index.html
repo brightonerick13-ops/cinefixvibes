@@ -602,8 +602,7 @@
     <script>
         // ==========================================
         // CONFIGURATION AREA (TOKEN IMENGIZWA HAPA)
-        // ==========================================
-        const SHRINKME_API_TOKEN = "203ff4e42f8e831edfa5b72821e95acb099ddc5f"; 
+        // ========================================== 
         const TMDB_CORE_API_KEY = "dad82fe705424bd1246e75c5c056311e";
         const ASSET_RESOLUTION_PATH = "https://image.tmdb.org/t/p/w500";
         const GLOBAL_LANG = "en-US"; 
@@ -620,35 +619,8 @@
             "tv_94605": "https://shrinkme.io/SquidGameS01FullHD"
         };
 
-                // HELPER: DYNAMIC ROUTE SHORTENER ENGINE (OPTIMIZED BY BRIGHTROBSON)
-        function generateMonetizedLink(destinationUrl, fallbackUrl) {
-            if(!SHRINKME_API_TOKEN) {
-                console.warn("Shrinkme API token is missing!");
-                window.open(fallbackUrl, '_blank');
-                return;
+                
             }
-            
-            // Clean and encode the destination URL to prevent errors with the Shrinkme API
-            const apiUrl = `https://shrinkme.io/api?api=${SHRINKME_API_TOKEN}&url=${encodeURIComponent(destinationUrl)}`;
-            
-            // Fetch the shortened URL dynamically from the API endpoint
-            fetch(apiUrl)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.status === "success" && data.shortenedUrl) {
-                        // Link generated successfully, open the monetized Shrinkme link to generate revenue
-                        window.open(data.shortenedUrl, '_blank');
-                    } else {
-                        // API fallback: generate a general shrinkme link so you don't lose traffic
-                        window.open(`https://shrinkme.io/api?api=${SHRINKME_API_TOKEN}&url=${encodeURIComponent(fallbackUrl)}`, '_blank');
-                    }
-                })
-                .catch(err => {
-                    console.error("Shortener API Error, routing to manual shrinkme link:", err);
-                    // Network or API failure fallback: route the user to your hardcoded Shrinkme link
-                    window.open(`https://shrinkme.click/hWGxhlf`, '_blank');
-                });
-        }
         async function fetchHeroWallData() {
             try {
                 const res = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_CORE_API_KEY}&language=${GLOBAL_LANG}&with_original_language=en&page=1`);
